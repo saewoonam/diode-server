@@ -1,0 +1,20 @@
+{
+  "name": "compressor_server",
+  "packageManager": "yarn@3.2.0",
+  "license": "MIT",
+  "scripts": {
+    "dev": "nodemon --watch ./src ./src/simple.js",
+    "start": "node ./src/simple.js"
+  },
+  "dependencies": {
+    "@serialport/bindings-cpp": "^10.7.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "ioredis": "^4.28.5",
+    "polka": "^0.5.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.11.0",
+    "nodemon": "^2.0.15"
+  }
+}

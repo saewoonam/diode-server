@@ -1,0 +1,17 @@
+version: "3.3"
+
+services:
+  backend:
+    image: node:lts-slim
+    #privileged: true
+    working_dir: "/app"
+    user: "${UID}:${GID}"
+    command: yarn dev
+    ports:
+      - 3100:3100
+    volumes:
+      - .:/app
+      #- /dev:/dev
+    devices:
+      #- "/dev/bus/usb:/dev/bus/usb"
+      - "/dev/ttyACM0:/dev/ttyACM0"
