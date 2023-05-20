@@ -7,10 +7,11 @@ const Bindings = autoDetect()
 async function main(port_path) {
     // await Bindings.list().then(res=>console.log(res))
     // console.log('readDiodes/main');
-    query = new Buffer.from('getT?\r\n', 'utf8')    // console.log(query)
+    // query = new Buffer.from('getT?\r\n', 'utf8')    // console.log(query)
+    query = new Buffer.from('V? 0\r\n', 'utf8')    // console.log(query)
     // console.log(query.length);
     response = new Buffer.alloc(255);
-    let port = await Bindings.open({path:port_path, baudRate:9600});
+    let port = await Bindings.open({path:port_path, baudRate:9600, lock:false});
     // console.log('isOpen', port.isOpen)
     await port.write(query)
     // console.log('finished writing query');
@@ -20,14 +21,16 @@ async function main(port_path) {
         // console.log('try to read');
         result = await port.read(response, len, 255-len)
         len += result.bytesRead
-        // console.log(JSON.stringify(response.slice(0, len).toString()));
+        //console.log(JSON.stringify(response.slice(0, len).toString()));
         // console.log(response.slice(0, len).toString().endsWith('\r\n'), len<=query.length);
     } while (!(response.slice(0, len).toString().endsWith('\r\n')) || len<=query.length);
     response = response.slice(0, len).toString()
-    response = response.trim().split('\r\n')[1]
+    // console.log(response)
+    response = response.trim().split('\r\n')[0]
     // console.log(response)
     // console.log('replace', response.replaceAll("'", '"'))
-    response = response.replaceAll("'", '"')
+    // nor sure why we need to replace the ' with "
+    // response = response.replaceAll("'", '"')
     // console.log(response)
     response = JSON.parse(response)
     // console.log(response)

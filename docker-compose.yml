@@ -14,4 +14,5 @@ services:
       #- /dev:/dev
     devices:
       #- "/dev/bus/usb:/dev/bus/usb"
-      - "/dev/ttyACM0:/dev/ttyACM0"
+      #- "/dev/ttyACM4:/dev/ttyACM0"
+      - "/dev/diode:/dev/ttyACM0"

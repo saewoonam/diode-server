@@ -4,13 +4,20 @@
 const polka = require('polka');
 const app = polka();
 const diodes = require('./diodes');
-
+var busy = false;
 app.get('/', (req, res) => {
-      res.end('Hello there !');
+      res.end(`Hello there ! ${Date()}`);
   })
 app.get('/query/sensors', async(req, res) => {
-    let stats = await diodes.readDiodes('/dev/ttyACM0');
-    res.end(JSON.stringify(stats, null, "   "));
+    if (busy) {
+        res.end(JSON.stringify({error: 'busy'}));
+    } else {
+        busy = true;
+        // let stats = await diodes.readDiodes('/dev/ttyACM0');
+        let stats = await diodes.readDiodes('/dev/diode');
+        res.end(JSON.stringify(stats, null, "   "));
+        busy = false;
+    }
 });
 
 
